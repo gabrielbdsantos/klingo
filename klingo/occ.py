@@ -12,8 +12,7 @@ from OCC.Core.BRepOffsetAPI import BRepOffsetAPI_ThruSections
 from OCC.Core.GeomAPI import GeomAPI_Interpolate
 from OCC.Core.gp import gp_Pnt
 from OCC.Core.TColgp import TColgp_HArray1OfPnt
-from OCC.Core.TopoDS import (TopoDS_Compound, TopoDS_Shape, TopoDS_Solid,
-                             topods_Shell)
+from OCC.Core.TopoDS import TopoDS_Compound, TopoDS_Shape, topods_Shell
 from OCC.Extend.DataExchange import write_stl_file
 
 from klingo.profile import Profile
@@ -46,7 +45,7 @@ def sections_to_surface(
 
 def surfaces_to_solid(
     surfaces: Sequence[BRepOffsetAPI_ThruSections],
-) -> TopoDS_Solid:
+) -> BRepBuilderAPI_MakeSolid:
     """Create a solid out of connected surfaces."""
     sewer = BRepBuilderAPI_Sewing(1e-6)
     for surface in surfaces:
