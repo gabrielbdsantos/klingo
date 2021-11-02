@@ -29,8 +29,9 @@ the final geometry to `.stl`.
 
 ## Install
 
+TODO
 
-## TODO^[1]
+## TODO
 
   * [ ] Add tests
   * [ ] Add examples
