@@ -27,9 +27,11 @@ the final geometry to `.stl`.
   * scipy >= 1.7
   * pythonocc-core == 7.5.1
 
-## Install
+## Install :warning:
 
-TODO
+For now, poetry is not actually working. There is an issue going on with
+hyphenated package names [python-poetry/poetry#4678][4678]. Thus, it is not
+possible to add pythonocc-core as a dependencie.
 
 ## TODO
 
@@ -45,3 +47,4 @@ to [LICENSE][license].
 [numpy]: https://www.numpy.org
 [occ]: https://www.opencascade.org
 [license]: ./LICENSE
+[4678]: https://github.com/python-poetry/poetry/issues/4678

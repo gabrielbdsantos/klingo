@@ -1,6 +1,5 @@
 """Define some wrappers for working with OCC."""
 
-
 from os import PathLike
 from typing import Sequence
 
