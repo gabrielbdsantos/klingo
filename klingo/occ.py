@@ -18,7 +18,7 @@ from OCC.Extend.DataExchange import write_stl_file
 from klingo.profile import Profile
 
 
-def sections_to_surface(
+def make_surface(
     sections: Sequence[Profile],
 ) -> BRepOffsetAPI_ThruSections:
     """Create a surface out of a sequence of profiles."""
@@ -43,7 +43,7 @@ def sections_to_surface(
     return surface
 
 
-def surfaces_to_solid(
+def make_solid(
     surfaces: Sequence[BRepOffsetAPI_ThruSections],
 ) -> BRepBuilderAPI_MakeSolid:
     """Create a solid out of connected surfaces."""
