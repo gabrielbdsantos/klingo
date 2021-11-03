@@ -4,10 +4,12 @@ from os import PathLike
 from typing import Sequence
 
 from OCC.Core.BRep import BRep_Builder
-from OCC.Core.BRepBuilderAPI import (BRepBuilderAPI_MakeEdge,
-                                     BRepBuilderAPI_MakeSolid,
-                                     BRepBuilderAPI_MakeWire,
-                                     BRepBuilderAPI_Sewing)
+from OCC.Core.BRepBuilderAPI import (
+    BRepBuilderAPI_MakeEdge,
+    BRepBuilderAPI_MakeSolid,
+    BRepBuilderAPI_MakeWire,
+    BRepBuilderAPI_Sewing,
+)
 from OCC.Core.BRepOffsetAPI import BRepOffsetAPI_ThruSections
 from OCC.Core.GeomAPI import GeomAPI_Interpolate
 from OCC.Core.gp import gp_Pnt
