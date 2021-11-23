@@ -6,12 +6,21 @@ from abc import ABC, abstractmethod
 from typing import Sequence, Type
 
 import numpy as np
-from numpy.typing import ArrayLike
+from numpy.typing import NDArray
 from scipy.spatial.transform import Rotation
 
 
 class Profile(ABC):
     """Define an abstract two-dimensional profile."""
+
+    slots = (
+        "coords",
+        "camber_line",
+        "chord_length",
+        "max_thickness",
+        "max_thickness_location",
+        "reference_point",
+    )
 
     @abstractmethod
     def __init__(self) -> None:
@@ -19,12 +28,12 @@ class Profile(ABC):
 
     @classmethod
     def __init_subclass__(cls: Type[Profile]) -> None:
-        cls.coords: np.ndarray = np.array([])
-        cls.camber_line: np.ndarray = np.array([])
+        cls.coords: NDArray[np.float64] = np.array([])
+        cls.camber_line: NDArray[np.float64] = np.array([])
         cls.chord_length: float = 1
         cls.max_thickness: float = 0
-        cls.max_thickness_location: np.ndarray = np.array([])
-        cls.reference_point: np.ndarray = np.zeros(3)
+        cls.max_thickness_location: NDArray[np.float64] = np.array([])
+        cls.reference_point: NDArray[np.float64] = np.zeros(3)
 
     def scale(self, factor: float) -> None:
         """Scale the airfoil."""
@@ -34,8 +43,9 @@ class Profile(ABC):
         self.coords *= factor
         self.camber_line *= factor
         self.max_thickness_location *= factor
+        self.chord_length *= factor
 
-    def translate(self, vector: ArrayLike) -> None:
+    def translate(self, vector: NDArray[np.float64]) -> None:
         """Translate the airfoil."""
         vec = np.asfarray(vector)
         if vec.shape != (3,):
@@ -49,7 +59,7 @@ class Profile(ABC):
         self,
         angles: Sequence[float],
         degrees: bool = True,
-        rotate_about: ArrayLike = None,
+        rotate_about: NDArray[np.float64] = None,
     ) -> None:
         """Rotate the airfoil about a reference point.
 
@@ -58,10 +68,11 @@ class Profile(ABC):
         """
         yaw, pitch, roll = angles
 
-        if rotate_about is not None:
-            ref_point = np.asfarray(rotate_about)
-        else:
-            ref_point = self.reference_point + 0
+        ref_point: NDArray[np.float64] = (
+            self.reference_point + 0
+            if rotate_about is None
+            else np.asfarray(rotate_about)
+        )
 
         def rot(mtx):
             return np.matmul(
@@ -79,6 +90,9 @@ class Profile(ABC):
 
         self.translate(ref_point)
 
+        def __array__(self) -> NDArray[np.float64]:
+            return self.coords
+
 
 class NACA4(Profile):
     """Define a four-digit NACA profile."""
@@ -88,6 +102,7 @@ class NACA4(Profile):
         max_camber: float,
         max_camber_position: float,
         max_thickness: float,
+        chord_length: float = 1.0,
         npoints: int = 100,
         cosine_spacing: bool = True,
         open_trailing_edge: bool = True,
@@ -219,3 +234,5 @@ class NACA4(Profile):
             np.asfarray([xc, yc, np.zeros(xc.shape)]).T
         )
         self.coords = recenter(np.asfarray([x, y, np.zeros(x.shape)]).T)
+
+        self.scale(chord_length)
