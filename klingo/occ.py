@@ -3,6 +3,8 @@
 from os import PathLike
 from typing import Sequence
 
+from numpy import float64
+from numpy.typing import NDArray
 from OCC.Core.BRep import BRep_Builder
 from OCC.Core.BRepBuilderAPI import (
     BRepBuilderAPI_MakeEdge,
@@ -17,20 +19,18 @@ from OCC.Core.TColgp import TColgp_HArray1OfPnt
 from OCC.Core.TopoDS import TopoDS_Compound, TopoDS_Shape, topods_Shell
 from OCC.Extend.DataExchange import write_stl_file
 
-from klingo.profile import Profile
-
 
 def make_surface(
-    sections: Sequence[Profile],
+    sections: Sequence[NDArray[float64]],
 ) -> BRepOffsetAPI_ThruSections:
     """Create a surface out of a sequence of profiles."""
     surface = BRepOffsetAPI_ThruSections(False, False, 1e-18)
     surface.SetMaxDegree(1)
 
     for section in sections:
-        vertices = TColgp_HArray1OfPnt(1, section.coords.shape[0])
+        vertices = TColgp_HArray1OfPnt(1, section.shape[0])
 
-        for i, coord in enumerate(section.coords):
+        for i, coord in enumerate(section):
             vertices.SetValue(i + 1, gp_Pnt(*coord))
 
         bspline = GeomAPI_Interpolate(vertices, False, 1e-12)
