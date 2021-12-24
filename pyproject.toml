@@ -6,19 +6,16 @@ authors = ['Gabriel B. Santos <gabriel.bertacco@unesp.br>']
 license = 'MIT'
 readme = 'README.md'
 repository = 'https://github.com/gabrielbdsantos/klingo'
-keywords = ['blade', 'airfoil', 'parameterization', 'opencascade', 'occ']
+keywords = ['blade', 'airfoil', 'parameterization']
 
 [tool.poetry.dependencies]
 python = '>=3.8,<3.10'
 numpy = '>=1.20'
 scipy = '>=1.7'
-pythonocc-core = {git = 'https://github.com/tpaviot/pythonocc-core.git', tag = '7.5.1'}
+numpy-stl = "^2.16.3"
 
 [tool.poetry.dev-dependencies]
-black = '*'
-pylint = '*'
-isort = '*'
-pydocstyle = '*'
+ipykernel = "^6.6.0"
 
 [build-system]
 requires = ['poetry-core>=1.0.0']
@@ -29,25 +26,3 @@ line-length = 79
 
 [tool.pydocstyle]
 convention = 'numpy'
-
-[tool.pylint.basic]
-variable-naming-style = 'any'  # please, do not complain about naming style.
-
-[tool.pylint.master]
-jobs = 4
-
-[tool.pylint.messages_control]
-disable = [
-  'raw-checker-failed',
-  'bad-inline-option',
-  'locally-disabled',
-  'file-ignored',
-  'suppressed-message',
-  'useless-suppression',
-  'deprecated-pragma',
-  'use-symbolic-message-instead',
-  'too-many-arguments',
-  'too-many-locals',
-  'too-many-statements',
-  'arguments-differ',
-]
