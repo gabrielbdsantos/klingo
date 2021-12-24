@@ -1,4 +1,5 @@
-"""Define two-dimensional profiles."""
+# coding=utf-8
+"""Define two-dimensional airfoil profiles."""
 
 from __future__ import annotations
 
@@ -10,8 +11,8 @@ from numpy.typing import NDArray
 from scipy.spatial.transform import Rotation
 
 
-class Profile(ABC):
-    """Define an abstract two-dimensional profile."""
+class Airfoil2D(ABC):
+    """Define an abstract two-dimensional airfoil profile."""
 
     slots = (
         "coords",
@@ -27,7 +28,7 @@ class Profile(ABC):
         ...
 
     @classmethod
-    def __init_subclass__(cls: Type[Profile]) -> None:
+    def __init_subclass__(cls: Type[Airfoil2D]) -> None:
         cls.coords: NDArray[np.float64] = np.array([])
         cls.camber_line: NDArray[np.float64] = np.array([])
         cls.chord_length: float = 1
@@ -94,10 +95,10 @@ class Profile(ABC):
             return self.coords
 
 
-class NACA4(Profile):
-    """Define a four-digit NACA profile."""
+class NACA4(Airfoil2D):
+    """Define a two-dimensional four-digit NACA airfoil profile."""
 
-    def __init__(  # pylint: disable=super-init-not-called
+    def __init__(
         self,
         max_camber: float,
         max_camber_position: float,
