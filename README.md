@@ -36,7 +36,7 @@ Using [poetry][poetry]:
 
   * [ ] Add tests
   * [ ] Add examples
-  * [ ] Extend export capabilities
+  * [ ] ~~Extend export capabilities~~
 
 ## License
 
