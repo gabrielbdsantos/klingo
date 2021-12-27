@@ -6,7 +6,7 @@ A minimal framework for creating parameterized airfoil geometries.
 
 The core concept is simple:
 
-  1. Parameterization based on array manipulation via [Numpy][numpy].
+  1. Parameterization based on array manipulation via [numpy][numpy].
   2. Geometry generation via [numpy-stl][stl].
 
 Klingo adopts the concept of _sections_ to define the blade geometry. Each
@@ -21,16 +21,15 @@ Klingo also provides a simple method for exporting the final geometry to
 
 ## Requirements
 
-  * python >= 3.8
-  * numpy >= 1.20
-  * scipy >= 1.7
+  * python >= 3.7, < 3.10
+  * numpy >= 1.21.5
+  * scipy >= 1.7.3
   * numpy-stl >= 2.16.3
 
 ## Install
 
 Using [poetry][poetry]:
 
-    poetry env use PATH_TO_YOUR_PYTHON_BINARY
     poetry install --no-dev
 
 ## TODO
@@ -41,7 +40,7 @@ Using [poetry][poetry]:
 
 ## License
 
-This project is licensed under the MIT License. For further information refer
+This project is licensed under the MIT License. For further information see the
 to [LICENSE][license].
 
 [poetry]: https://python-poetry.org
