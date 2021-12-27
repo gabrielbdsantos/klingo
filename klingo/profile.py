@@ -1,9 +1,8 @@
 # coding=utf-8
-"""Define two-dimensional airfoil profiles."""
+"""Provide different three-dimensional airfoil profiles."""
 
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
 from typing import Sequence, Type
 
 import numpy as np
@@ -11,8 +10,8 @@ from numpy.typing import NDArray
 from scipy.spatial.transform import Rotation
 
 
-class Airfoil2D(ABC):
-    """Define an abstract two-dimensional airfoil profile."""
+class Airfoil:
+    """Define a generic three-dimensional airfoil profile."""
 
     slots = (
         "coords",
@@ -23,12 +22,12 @@ class Airfoil2D(ABC):
         "reference_point",
     )
 
-    @abstractmethod
     def __init__(self) -> None:
-        ...
+        pass
 
     @classmethod
-    def __init_subclass__(cls: Type[Airfoil2D]) -> None:
+    def __init_subclass__(cls: Type[Airfoil]) -> None:
+        """Initialize subclasses with the following default attributes."""
         cls.coords: NDArray[np.float64] = np.array([])
         cls.camber_line: NDArray[np.float64] = np.array([])
         cls.chord_length: float = 1
@@ -37,7 +36,14 @@ class Airfoil2D(ABC):
         cls.reference_point: NDArray[np.float64] = np.zeros(3)
 
     def scale(self, factor: float) -> None:
-        """Scale the airfoil."""
+        """Scale the airfoil.
+
+        Parameters
+        ----------
+        factor
+            The scaling factor.
+
+        """
         if factor <= 0:
             raise ValueError("Invalid scaling factor.")
 
@@ -47,7 +53,14 @@ class Airfoil2D(ABC):
         self.chord_length *= factor
 
     def translate(self, vector: NDArray[np.float64]) -> None:
-        """Translate the airfoil."""
+        """Translate the airfoil.
+
+        Parameters
+        ----------
+        vector
+            a three-dimensional translation vector.
+
+        """
         vec = np.asfarray(vector)
         if vec.shape != (3,):
             raise TypeError("Invalid translation vector")
@@ -64,13 +77,23 @@ class Airfoil2D(ABC):
     ) -> None:
         """Rotate the airfoil about a reference point.
 
-        A three-dimensional rotation matrix is created based on the intrinsic
+        Create a three-dimensional rotation matrix based on the intrinsic
         Tait-Bryan angles (aka. yaw, pitch, and roll).
+
+        Parameters
+        ----------
+        angles
+            The angle values: [yaw, pitch, roll].
+        degrees : optional
+            Assume angle values in degrees rather than radians.
+        rotate_about : optional
+            The point about which to rotate.
+
         """
         yaw, pitch, roll = angles
 
         ref_point: NDArray[np.float64] = (
-            self.reference_point + 0
+            self.reference_point + 0  # adding zero creates a new object.
             if rotate_about is None
             else np.asfarray(rotate_about)
         )
@@ -92,11 +115,12 @@ class Airfoil2D(ABC):
         self.translate(ref_point)
 
         def __array__(self) -> NDArray[np.float64]:
+            """Enable numpy operations on Airfoil."""
             return self.coords
 
 
-class NACA4(Airfoil2D):
-    """Define a two-dimensional four-digit NACA airfoil profile."""
+class NACA4(Airfoil):
+    """Define a three-dimensional four-digit NACA airfoil profile."""
 
     def __init__(
         self,

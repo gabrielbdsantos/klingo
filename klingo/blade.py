@@ -7,7 +7,7 @@ from typing import Callable, List, Sequence
 import numpy as np
 import stl
 
-from .profile import Airfoil2D
+from .profile import Airfoil
 
 
 class Blade:
@@ -15,10 +15,10 @@ class Blade:
 
     slots = ("sections",)
 
-    def __init__(self, sections: Sequence[Airfoil2D]) -> None:
+    def __init__(self, sections: Sequence[Airfoil]) -> None:
         self.sections = sections
 
-    def __getitem__(self, index: int) -> Airfoil2D:
+    def __getitem__(self, index: int) -> Airfoil:
         return self.sections[index]
 
     # WARN: currently this method only works for sections of same shape.
@@ -141,24 +141,25 @@ def generic_vertex_ordering(
     inc_j: int = 1,
     invert: bool = True,
 ) -> List:
-    """Define the vertices order for each face.
+    """Define the vertices order for each face of the STL solid.
 
     Faces in STL files consist of three vertices, i.e., triangles. So,
     considering two consecutive blade sections, we can imagine the
     following.
 
-                         (i + inc*2) (i + inc)      i
-        ith section ->  ────+───────────+───────────+────
-                            +        +  +        +  +
-                            +      +    +      +    +
-                            +    +      +    +      +
-                            +  +        +  +        +
-                            ++          ++          +
-        jth section ->  ────+───────────+───────────+────
-                         (j + inc*2) (j + inc)      j
+                       (i + 2*inc_i)  (i + inc_i)     i
+        ith section ->  ────O────────────O────────────O────
+                            .          . .          . .
+                            .        .   .        .   .
+                            .      .     .      .     .
+                            .    .       .    .       .
+                            .  .         .  .         .
+                            ..           ..           .
+        jth section ->  ────O────────────O────────────O────
+                       (j + 2*inc_y)  (j + inc_y)     j
 
     This abstraction works well for blades with consistent, uniform
-    sections.
+    sections; i.e., sections should have the same number of points.
 
     By default, we use clockwise ordering.
 
@@ -176,7 +177,7 @@ def generic_vertex_ordering(
     inc_j
         the increment for the next vertex in the jth section.
     invert
-        inverts the vertices ordering, i.e., make them counterclockwise.
+        invert the vertices order: make them counterclockwise.
 
     """
     return (
