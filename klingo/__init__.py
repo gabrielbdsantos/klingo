@@ -4,4 +4,4 @@
 __version__ = "0.1.0"
 
 from .blade import Blade
-from .profile import NACA4, Airfoil
+from .profile import NACA4, GenericAirfoil
