@@ -36,7 +36,8 @@ Using [poetry][poetry]:
 
   * [ ] Add tests
   * [ ] Add examples
-  * [ ] ~~Extend export capabilities~~
+  * [ ] ~~Extend export capabilities~~ (once in `.stl` the file can be
+    converted to other formats)
 
 ## License
 

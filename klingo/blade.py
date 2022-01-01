@@ -1,12 +1,13 @@
 # coding=utf-8
-"""Provide tools for managing blades."""
+"""Provide tools for managing blade geometries."""
 
 from io import BytesIO
-from typing import Callable, List, Sequence
+from typing import Sequence
 
 import numpy as np
 import stl
 
+from .io import generic_vertex_ordering
 from .profile import Airfoil
 
 
@@ -21,13 +22,13 @@ class Blade:
     def __getitem__(self, index: int) -> Airfoil:
         return self.sections[index]
 
-    # WARN: currently this method only works for sections of same shape.
+    # WARNING: currently only works for sections of same shape.
     def export_stl(
         self,
         name: str,
         file_handler: BytesIO,
         invert: bool = False,
-    ) -> str:
+    ) -> BytesIO:
         """Export the surface to stl.
 
         Parameters
@@ -35,7 +36,8 @@ class Blade:
         name
             the solid name to be used as prefix.
         file_handler : optional
-            the IO handler.
+            the IO handler. If not specified, a new one is created and
+            returned.
         invert : optional
             invert the vertices order. default = False (points outwards).
 
@@ -114,10 +116,8 @@ class Blade:
                 (-1, 3),
             )
 
-        solids["top"] = top_bottom_secs(True)
-        solids["bottom"] = top_bottom_secs(False) + N * (
-            len(self.sections) - 1
-        )
+        solids["top"] = top_bottom_secs(False) + N * (len(self.sections) - 1)
+        solids["bottom"] = top_bottom_secs(True)
 
         for sname, faces in solids.items():
             solid = stl.mesh.Mesh(
@@ -130,58 +130,4 @@ class Blade:
 
             solid.save(f"{name}_{sname}", fh=file_handler, mode=stl.Mode.ASCII)
 
-        return file_handler.getvalue().decode()
-
-
-def generic_vertex_ordering(
-    i: int,
-    N: int,
-    j: Callable = lambda i, N: i + N,
-    inc_i: int = 1,
-    inc_j: int = 1,
-    invert: bool = True,
-) -> List:
-    """Define the vertices order for each face of the STL solid.
-
-    Faces in STL files consist of three vertices, i.e., triangles. So,
-    considering two consecutive blade sections, we can imagine the
-    following.
-
-                       (i + 2*inc_i)  (i + inc_i)     i
-        ith section ->  ────O────────────O────────────O────
-                            .          . .          . .
-                            .        .   .        .   .
-                            .      .     .      .     .
-                            .    .       .    .       .
-                            .  .         .  .         .
-                            ..           ..           .
-        jth section ->  ────O────────────O────────────O────
-                       (j + 2*inc_y)  (j + inc_y)     j
-
-    This abstraction works well for blades with consistent, uniform
-    sections; i.e., sections should have the same number of points.
-
-    By default, we use clockwise ordering.
-
-    Parameters
-    ----------
-    i
-        the vertex index on the current section.
-    N
-        an offset value corresponding to the same vertex i on a next
-        section.
-    j
-        a function describing the relationship between i and N.
-    inc_i
-        the increment for the next vertex in the ith section.
-    inc_j
-        the increment for the next vertex in the jth section.
-    invert
-        invert the vertices order: make them counterclockwise.
-
-    """
-    return (
-        [[i, j(i, N), j(i, N) + inc_j], [i, j(i, N) + inc_j, i + inc_i]]
-        if invert
-        else [[i, j(i, N) + inc_j, j(i, N)], [i, i + inc_i, j(i, N) + inc_j]]
-    )
+        return file_handler
