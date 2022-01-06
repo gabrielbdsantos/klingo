@@ -2,10 +2,11 @@
 """Provide tools for managing blade geometries."""
 
 from io import BytesIO
-from typing import Sequence
+from typing import Iterable, Sequence, Union
 
 import numpy as np
 import stl
+from numpy.typing import NDArray
 
 from .io import generic_vertex_ordering
 from .profile import Airfoil
@@ -19,8 +20,54 @@ class Blade:
     def __init__(self, sections: Sequence[Airfoil]) -> None:
         self.sections = sections
 
-    def __getitem__(self, index: int) -> Airfoil:
-        return self.sections[index]
+    def scale(self, factor: float) -> None:
+        """Scale the blade by a given factor.
+
+        Parameters
+        ----------
+        factor
+            The scaling factor.
+        """
+        for section in self.sections:
+            section.scale(factor)
+
+    def translate(
+        self, vector: Union[Sequence[float], NDArray[np.float64]]
+    ) -> None:
+        """Translate the blade by a given vector.
+
+        Parameters
+        ----------
+        vector
+            The three-dimensional translation vector.
+        """
+        for section in self.sections:
+            section.translate(vector)
+
+    def rotate(
+        self,
+        angles: Sequence[float],
+        degrees: bool = True,
+        rotate_about: Union[Sequence[float], NDArray[np.float64]] = None,
+    ) -> None:
+        """Rotate the blade about a reference point.
+
+        Create a three-dimensional rotation matrix based on the intrinsic
+        Tait-Bryan angles (aka. yaw, pitch, and roll).
+
+        Parameters
+        ----------
+        angles
+            The angle values as [yaw, pitch, roll].
+        degrees : optional
+            Assume angle values in degrees rather than in radians.
+        rotate_about : optional
+            The point about which to rotate.
+        """
+        for section in self.sections:
+            section.rotate(
+                angles=angles, degrees=degrees, rotate_about=rotate_about
+            )
 
     # WARNING: currently only works for sections of same shape.
     def export_stl(
@@ -40,7 +87,6 @@ class Blade:
             returned.
         invert : optional
             invert the vertices order. default = False (points outwards).
-
         """
         # Check whether all sections have the same shape.
         if np.any(np.diff([x.coords.shape for x in self.sections], axis=0)):
@@ -131,3 +177,9 @@ class Blade:
             solid.save(f"{name}_{sname}", fh=file_handler, mode=stl.Mode.ASCII)
 
         return file_handler
+
+    def __getitem__(self, index: int) -> Airfoil:
+        return self.sections[index]
+
+    def __next__(self) -> Iterable:
+        return self.sections
