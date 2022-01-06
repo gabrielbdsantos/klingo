@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Sequence, Type
+from typing import Iterable, Sequence, Type, Union
 
 import numpy as np
 from numpy.typing import NDArray
@@ -38,7 +38,7 @@ class Airfoil(ABC):
         cls.reference_point: NDArray[np.float64] = np.zeros(3)
 
     def scale(self, factor: float) -> None:
-        """Scale the airfoil.
+        """Scale the airfoil by a given factor.
 
         Parameters
         ----------
@@ -53,13 +53,15 @@ class Airfoil(ABC):
         self.max_thickness_location *= factor
         self.chord_length *= factor
 
-    def translate(self, vector: NDArray[np.float64]) -> None:
-        """Translate the airfoil.
+    def translate(
+        self, vector: Union[Sequence[float], NDArray[np.float64]]
+    ) -> None:
+        """Translate the airfoil by a given vector.
 
         Parameters
         ----------
         vector
-            a three-dimensional translation vector.
+            The three-dimensional translation vector.
         """
         vec = np.asfarray(vector)
         if vec.shape != (3,):
@@ -73,7 +75,7 @@ class Airfoil(ABC):
         self,
         angles: Sequence[float],
         degrees: bool = True,
-        rotate_about: NDArray[np.float64] = None,
+        rotate_about: Union[Sequence[float], NDArray[np.float64]] = None,
     ) -> None:
         """Rotate the airfoil about a reference point.
 
@@ -83,7 +85,7 @@ class Airfoil(ABC):
         Parameters
         ----------
         angles
-            The angle values: [yaw, pitch, roll].
+            The angle values as [yaw, pitch, roll].
         degrees : optional
             Assume angle values in degrees rather than radians.
         rotate_about : optional
@@ -113,9 +115,14 @@ class Airfoil(ABC):
 
         self.translate(ref_point)
 
-        def __array__(self) -> NDArray[np.float64]:
-            """Enable numpy operations on Airfoil."""
-            return self.coords
+    def __array__(self) -> NDArray[np.float64]:
+        return self.coords
+
+    def __next__(self) -> Iterable:
+        return self.coords
+
+    def __getitem__(self, index: int) -> NDArray[np.float64]:
+        return self.coords[index]
 
 
 class GenericAirfoil(Airfoil):
