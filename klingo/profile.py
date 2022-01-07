@@ -168,9 +168,14 @@ class GenericAirfoil(Airfoil):
             else np.vstack((coords[: npoints + 1], coords[npoints:]))
         )
 
-        # Fit the x coordinates in the range [0, 1].
-        self.coords.T[0] -= self.coords.T[0].min()
-        self.coords /= self.coords.T[0].max()
+        # Scale the given coordinates to the range [0, 1]. This is necessary to
+        # achieve a standard representation even under generic user inputs. For
+        # that, we use the following set rules:
+        #   - the leading edge must be at x = 0;
+        #   - the trailing edge must be at (x, y) = (1, 0).
+        self.coords[:, 0] -= self.coords[npoints, 0]
+        self.coords[:, 1] -= (self.coords[0] + self.coords[-1])[1] / 2.0
+        self.coords /= np.abs(self.coords[0] + self.coords[-1])[0] / 2.0
 
         # Calculate the camber line as the mean location of two opposite
         # points. The resulting curve is expected to be highly irregular;
