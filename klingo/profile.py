@@ -52,6 +52,7 @@ class Airfoil(ABC):
         self.camber_line *= factor
         self.max_thickness_location *= factor
         self.chord_length *= factor
+        self.reference_point *= factor
 
     def translate(
         self, vector: Union[Sequence[float], NDArray[np.float64]]
@@ -70,6 +71,7 @@ class Airfoil(ABC):
         self.coords += vec
         self.camber_line += vec
         self.max_thickness_location += vec
+        self.reference_point += vec
 
     def rotate(
         self,
@@ -112,6 +114,7 @@ class Airfoil(ABC):
         self.coords = rot(self.coords)
         self.camber_line = rot(self.camber_line)
         self.max_thickness_location = rot(self.max_thickness_location)
+        self.reference_point = rot(self.reference_point)
 
         self.translate(ref_point)
 
