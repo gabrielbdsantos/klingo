@@ -163,7 +163,7 @@ class GenericAirfoil(Airfoil):
         even_npoints = not bool(coords.shape[0] % 2)
 
         self.coords = (
-            coords
+            coords + 0.0  # make a soft copy
             if even_npoints
             else np.vstack((coords[: npoints + 1], coords[npoints:]))
         )
