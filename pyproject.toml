@@ -10,20 +10,23 @@ keywords = ["blade", "airfoil", "parameterization"]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.10"
-numpy = "^1.21.5"
-scipy = "^1.7.3"
-numpy-stl = "^2.16.3"
+numpy = "^1.20"
+scipy = "^1.7"
+numpy-stl = "^2.16"
 
 [tool.poetry.dev-dependencies]
-ipykernel = "^6.6.0"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+jupyterlab = "^3.2.6"
+matplotlib = "^3.5.1"
+black = "^22.1.0"
+pydocstyle = "^6.1.1"
 
 [tool.black]
 line-length = 79
 
 [tool.pydocstyle]
-# Numpy style + D105
+# D105 + Numpy Convention
 ignore = "D105,D107,D203,D212,D213,D402,D413,D415,D416,D417"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
