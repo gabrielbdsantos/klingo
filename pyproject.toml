@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "klingo"
-version = "0.1.0"
+version = "0.1.1"
 description = "A minimal framework for creating parameterized airfoil geometries."
 authors = ["Gabriel B. Santos <gabriel.bertacco@unesp.br>"]
 license = "MIT"

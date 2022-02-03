@@ -157,7 +157,7 @@ class Blade:
                         inc_j=-1,
                         invert=invert,
                     )
-                    for i in range(N // 2)
+                    for i in range(N // 2 - 1)
                 ],
                 (-1, 3),
             )
