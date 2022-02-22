@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "klingo"
-version = "0.1.1"
+version = "0.1.2"
 description = "A minimal framework for creating parameterized airfoil geometries."
 authors = ["Gabriel B. Santos <gabriel.bertacco@unesp.br>"]
 license = "MIT"
@@ -9,9 +9,9 @@ repository = "https://github.com/gabrielbdsantos/klingo"
 keywords = ["blade", "airfoil", "parameterization"]
 
 [tool.poetry.dependencies]
-python = ">=3.7,<3.10"
+python = ">=3.8,<3.11"
 numpy = "^1.20"
-scipy = "^1.7"
+scipy = "^1.8"
 numpy-stl = "^2.16"
 
 [tool.poetry.dev-dependencies]
