@@ -102,12 +102,9 @@ class Airfoil(ABC):
         )
 
         def rot(mtx):
-            return np.matmul(
-                mtx,
-                Rotation.from_euler(
+            return mtx @ Rotation.from_euler(
                     "zyx", [-yaw, -pitch, -roll], degrees=degrees
-                ).as_matrix(),
-            )
+                ).as_matrix()
 
         self.translate(-ref_point)
 
