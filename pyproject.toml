@@ -9,9 +9,9 @@ repository = "https://github.com/gabrielbdsantos/klingo"
 keywords = ["blade", "airfoil", "parameterization"]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.11"
+python = ">=3.7,<3.11"
 numpy = "^1.20"
-scipy = "^1.8"
+scipy = "^1.7"
 numpy-stl = "^2.16"
 
 [tool.poetry.dev-dependencies]
