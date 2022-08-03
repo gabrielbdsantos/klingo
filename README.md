@@ -42,7 +42,7 @@ Using [poetry][poetry]:
 ## License
 
 This project is licensed under the MIT License. For further information see the
-to [LICENSE][license].
+[LICENSE][license].
 
 [poetry]: https://python-poetry.org
 [numpy]: https://www.numpy.org
