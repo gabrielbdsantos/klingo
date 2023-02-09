@@ -102,9 +102,12 @@ class Airfoil(ABC):
         )
 
         def rot(mtx):
-            return mtx @ Rotation.from_euler(
+            return (
+                mtx
+                @ Rotation.from_euler(
                     "zyx", [-yaw, -pitch, -roll], degrees=degrees
                 ).as_matrix()
+            )
 
         self.translate(-ref_point)
 
@@ -283,9 +286,9 @@ class NACA4(Airfoil):
             * (
                 a0 * np.sqrt(xc)
                 + a1 * xc
-                + a2 * xc ** 2
-                + a3 * xc ** 3
-                + a4 * xc ** 4
+                + a2 * xc**2
+                + a3 * xc**3
+                + a4 * xc**4
             )
         )
 
