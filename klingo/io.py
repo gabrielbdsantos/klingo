@@ -1,5 +1,5 @@
 # coding=utf-8
-"""Provide functionalities for managing I/O operations."""
+"""Manage I/O operations."""
 
 from typing import Callable, List
 
@@ -37,19 +37,23 @@ def generic_vertex_ordering(
     Parameters
     ----------
     i
-        the vertex index on the current section.
+        The vertex index on the current section.
     N
-        an offset value corresponding to the same vertex i on a next
+        An offset value corresponding to the same vertex i on a next
         section.
     j
-        a function describing the relationship between i and N.
+        A function describing the relationship between i and N.
     inc_i
-        the increment for the next vertex in the ith section.
+        The increment for the next vertex in the ith section.
     inc_j
-        the increment for the next vertex in the jth section.
+        The increment for the next vertex in the jth section.
     invert
-        invert the vertices order: make them counterclockwise.
+        Invert the vertices order: make them counterclockwise.
 
+    Return
+    ------
+    list
+        The correct order of vertices to create a valid STL surface.
     """
     return (
         [[i, j(i, N), j(i, N) + inc_j], [i, j(i, N) + inc_j, i + inc_i]]

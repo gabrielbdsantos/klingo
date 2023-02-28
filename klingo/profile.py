@@ -1,5 +1,5 @@
 # coding=utf-8
-"""Provide different three-dimensional airfoil profiles."""
+"""Define and manipulate three-dimensional airfoil profiles."""
 
 from __future__ import annotations
 
@@ -77,7 +77,7 @@ class Airfoil(ABC):
         self,
         angles: Sequence[float],
         degrees: bool = True,
-        rotate_about: Union[Sequence[float], NDArray[np.float64]] = None,
+        rotate_about: Union[Sequence[float], NDArray[np.float64], None] = None,
     ) -> None:
         """Rotate the airfoil about a reference point.
 
@@ -134,6 +134,9 @@ class GenericAirfoil(Airfoil):
     def __init__(self) -> None:
         pass
 
+    # NOTE: The current method used to determine the camber line and maximum
+    # thickness is not reliable. A better approach is needed. Perhaps, using
+    # Voronoi diagrams would be an option.
     def from_coords(
         self, coords: NDArray[np.float64], chord_length: float = 1.0
     ) -> None:

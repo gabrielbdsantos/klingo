@@ -1,5 +1,5 @@
 # coding=utf-8
-"""Provide tools for managing blade geometries."""
+"""Manage blade geometries."""
 
 from io import BytesIO
 from typing import Iterable, Sequence, Union
@@ -48,7 +48,7 @@ class Blade:
         self,
         angles: Sequence[float],
         degrees: bool = True,
-        rotate_about: Union[Sequence[float], NDArray[np.float64]] = None,
+        rotate_about: Union[Sequence[float], NDArray[np.float64], None] = None,
     ) -> None:
         """Rotate the blade about a reference point.
 
@@ -81,12 +81,17 @@ class Blade:
         Parameters
         ----------
         name
-            the solid name to be used as prefix.
+            The solid name to be used as prefix.
         file_handler : optional
-            the IO handler. If not specified, a new one is created and
+            The IO handler. If not specified, a new one is created and
             returned.
         invert : optional
-            invert the vertices order. default = False (points outwards).
+            Invert the vertices order. default = False (points outwards).
+
+        Return
+        ------
+        BytesIO
+            In-memory stream of bytes containing the STL object.
         """
         # Check whether all sections have the same shape.
         if np.any(np.diff([x.coords.shape for x in self.sections], axis=0)):
