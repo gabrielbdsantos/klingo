@@ -10,15 +10,15 @@ keywords = ["blade", "airfoil", "parameterization"]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.11"
-numpy = "^1.20"
-scipy = "^1.7"
-numpy-stl = "^2.16"
+numpy = ">=1.20"
+scipy = ">=1.7"
+numpy-stl = ">=2.16"
 
 [tool.poetry.dev-dependencies]
-jupyterlab = "^3.2.6"
-matplotlib = "^3.5.1"
-black = "^22.1.0"
-pydocstyle = "^6.1.1"
+jupyterlab = ">=3.2"
+matplotlib = ">=3.5"
+black = ">=23.0"
+pydocstyle = ">=6.1"
 
 [tool.black]
 line-length = 79
