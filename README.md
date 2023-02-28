@@ -4,6 +4,7 @@ A minimal framework for creating parameterized airfoil geometries.
 
 ## About
 
+
 The core concept is simple:
 
   1. Parameterization based on array manipulation via [numpy][numpy].
@@ -17,14 +18,15 @@ section are stored using numpy, which makes ease to perform a number of
 geometrical manipulations. Klingo already provides the most common ones:
 _scale_, _translation_, and _rotation_.
 
-Klingo also provides a simple method for exporting the final geometry to
-`.stl`.
+Klingo is tailored for meshing in snappyHexMesh. So, it also provides a simple
+method for exporting the final geometry to `.stl`, separating the different
+surfaces into their own solid.
 
 ## Install
 
 ### Poetry
 
-    $ poetry add git+https://github.com/gabrielbdsantos/klingo.git@master
+    $ poetry add git+https://github.com/gabrielbdsantos/klingo.git
 
 ### Pip
 
