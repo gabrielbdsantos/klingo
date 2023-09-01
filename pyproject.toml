@@ -28,5 +28,5 @@ line-length = 79
 ignore = "D105,D107,D203,D212,D213,D402,D413,D415,D416,D417"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
