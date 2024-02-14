@@ -24,9 +24,9 @@ surfaces into their own solid.
 
 ## Install
 
-### Poetry
+### Rye
 
-    $ poetry add git+https://github.com/gabrielbdsantos/klingo.git
+    $ rye add git+https://github.com/gabrielbdsantos/klingo.git
 
 ### Pip
 

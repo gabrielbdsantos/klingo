@@ -24,8 +24,7 @@ class Airfoil(ABC):
     )
 
     @abstractmethod
-    def __init__(self) -> None:
-        ...
+    def __init__(self) -> None: ...
 
     @classmethod
     def __init_subclass__(cls: Type[Airfoil]) -> None:

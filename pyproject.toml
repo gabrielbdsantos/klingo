@@ -1,24 +1,37 @@
-[tool.poetry]
+[project]
 name = "klingo"
-version = "0.1.2"
+version = "0.1.5"
 description = "A minimal framework for creating parameterized airfoil geometries."
-authors = ["Gabriel B. Santos <gabriel.bertacco@unesp.br>"]
-license = "MIT"
+authors = [
+    { name = "Gabriel B. Santos", email = "gabriel.bertacco@unesp.br" }
+]
+dependencies = [
+    "numpy>=1.24.4",
+    "scipy>=1.10.1",
+    "numpy-stl>=3.1.1",
+]
 readme = "README.md"
-repository = "https://github.com/gabrielbdsantos/klingo"
-keywords = ["blade", "airfoil", "parameterization"]
+requires-python = ">= 3.8"
+packages = [
+  {include = "klingo"}
+]
 
-[tool.poetry.dependencies]
-python = ">=3.7,<3.11"
-numpy = ">=1.20"
-scipy = ">=1.7"
-numpy-stl = ">=2.16"
+[project.scripts]
+hello = "klingo:hello"
 
-[tool.poetry.dev-dependencies]
-jupyterlab = ">=3.2"
-matplotlib = ">=3.5"
-black = ">=23.0"
-pydocstyle = ">=6.1"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = false
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["klingo"]
 
 [tool.black]
 line-length = 79
@@ -26,7 +39,3 @@ line-length = 79
 [tool.pydocstyle]
 # D105 + Numpy Convention
 ignore = "D105,D107,D203,D212,D213,D402,D413,D415,D416,D417"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
