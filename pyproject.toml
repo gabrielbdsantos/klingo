@@ -1,6 +1,6 @@
 [project]
 name = "klingo"
-version = "0.1.5"
+version = "0.1.6"
 description = "A minimal framework for creating parameterized airfoil geometries."
 authors = [
     { name = "Gabriel B. Santos", email = "gabriel.bertacco@unesp.br" }
@@ -8,24 +8,17 @@ authors = [
 dependencies = [
     "numpy>=1.24.4",
     "scipy>=1.10.1",
-    "numpy-stl>=3.1.1",
+    "numpy-stl>=3.1.2",
 ]
 readme = "README.md"
-requires-python = ">= 3.8"
+requires-python = ">=3.8"
 packages = [
   {include = "klingo"}
 ]
 
-[project.scripts]
-hello = "klingo:hello"
-
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
-[tool.rye]
-managed = false
-dev-dependencies = []
 
 [tool.hatch.metadata]
 allow-direct-references = true

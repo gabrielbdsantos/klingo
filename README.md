@@ -24,10 +24,6 @@ surfaces into their own solid.
 
 ## Install
 
-### Rye
-
-    $ rye add git+https://github.com/gabrielbdsantos/klingo.git
-
 ### Pip
 
     $ pip install git+https://github.com/gabrielbdsantos/klingo.git@master
