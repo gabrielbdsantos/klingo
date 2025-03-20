@@ -63,7 +63,7 @@ class Airfoil(ABC):
         vector
             The three-dimensional translation vector.
         """
-        vec = np.asfarray(vector)
+        vec = np.asarray(vector, dtype=np.float64)
         if vec.shape != (3,):
             raise TypeError("Invalid translation vector")
 
@@ -97,7 +97,7 @@ class Airfoil(ABC):
         ref_point: NDArray[np.float64] = (
             self.reference_point + 0  # adding zero creates a new object.
             if rotate_about is None
-            else np.asfarray(rotate_about)
+            else np.asarray(rotate_about, dtype=np.float64)
         )
 
         def rot(mtx):
@@ -359,8 +359,10 @@ class NACA4(Airfoil):
             return array - self.reference_point
 
         self.camber_line = recenter(
-            np.asfarray([xc, yc, np.zeros(xc.shape)]).T
+            np.asarray([xc, yc, np.zeros(xc.shape)], dtype=np.float64).T
         )
-        self.coords = recenter(np.asfarray([x, y, np.zeros(x.shape)]).T)
+        self.coords = recenter(
+            np.asarray([x, y, np.zeros(x.shape)], dtype=np.float64).T
+        )
 
         self.scale(chord_length)
