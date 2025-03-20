@@ -26,9 +26,9 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 packages = ["klingo"]
 
-[tool.black]
+[tool.ruff]
 line-length = 79
 
-[tool.pydocstyle]
-# D105 + Numpy Convention
-ignore = "D105,D107,D203,D212,D213,D402,D413,D415,D416,D417"
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["F401"]
