@@ -182,7 +182,7 @@ class GenericAirfoil(Airfoil):
         # Calculate the camber line as the mean location of two opposite
         # points. The resulting curve is expected to be highly irregular;
         # hence, adopt curve fitting to obtain a smoothed approximation.
-        # For this, consider that the airfoil lays on a xy plane.
+        # For this, consider that the airfoil lays on the x-y plane.
         camber_line = np.array(
             [(self.coords[i] + self.coords[-i]) / 2.0 for i in range(npoints)]
         )
@@ -316,7 +316,7 @@ class NACA4(Airfoil):
         yc = np.zeros(xc.shape)
 
         # Calculate both upper and lower airfoil surfaces for cambered
-        # (assymetrical) airfoils.
+        # (asymmetrical) airfoils.
         if p != 0:
             # Initialize the array for the camber line derivative.
             dydx = np.zeros(xc.shape)
@@ -341,7 +341,7 @@ class NACA4(Airfoil):
             yl = yc - yt * np.cos(theta)
 
         # Calculate both upper and lower airfoil surfaces for non-cambered
-        # (symetrical) airfoils.
+        # (symmetrical) airfoils.
         else:
             xu = xl = xc
             yu = yt
